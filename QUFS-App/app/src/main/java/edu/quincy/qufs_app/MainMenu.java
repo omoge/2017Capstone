@@ -11,3 +11,8 @@ public class MainMenu extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
     }
 }
+
+
+///////////////////////////////////////////////
+//Test comment by Geoffrey
+//////

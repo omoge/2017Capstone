@@ -35,14 +35,14 @@ Student ID number to delete:<input type="text" name="student_id"/>
 
                 mysqli_select_db($conn, "csc320_gruenre");
 				
-				$deleteQuery="DELETE FROM FSData WHERE ID=$id_number;";
+				$deleteQuery="DELETE FROM FSData WHERE ID=$id_number;"; //query to remove based off of Student ID
 				
-				$result= mysqli_query($conn, $deleteQuery);
-//echo $result;
+				$result= mysqli_query($conn, $deleteQuery); //get the result
+
 
 	
 if ($conn->query($deleteQuery) === TRUE) {
-    echo "Record deleted successfully";
+    echo "Record deleted successfully"; //if this result was true then let them know
 }
 		
 				
@@ -50,7 +50,7 @@ if ($conn->query($deleteQuery) === TRUE) {
 		}
 		if(isset($_POST["goBack"]))
 		{
-			header("Location: database.php");
+			header("Location: database.php"); //send them back to the main menu
 			
 			
 		}

@@ -1,0 +1,38 @@
+﻿body{
+    font-family: Arial;
+    background-color: #f2e8e9;
+}
+
+h2{
+    font-size: 200%;
+    text-align: center;
+}
+
+input[type=text], select {
+  
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: .01px solid #ccc;
+    border-radius: 0px;
+    box-sizing: border-box;
+}
+
+
+.container{
+    width: 100%;
+}
+
+.floatleft{
+    float: left;
+    width: 50%;
+    text-align: center;
+    background-color: #db5360;
+}
+
+.floatright{
+    float: left;
+    width: 50%;
+    text-align: center;
+    background-color: #ffffff;
+}

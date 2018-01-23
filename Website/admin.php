@@ -3,10 +3,10 @@
 	session_start();
 	require 'UserAuthenticator.php';
 	$UserAuthenticator = new UserAuthenticator;
-    if($UserAuthenticator->isLoggedIn() == false)
-    {
+	if($UserAuthenticator->isLoggedIn() == false)
+	{
 		header("location: index.php");
-    }
+	}
 ?>
 <html>
 	<head>
@@ -36,31 +36,30 @@
 		</form>
 
 		<?php
-		if(isset($_POST["add"]))
-		{
-			header("Location: add.php");
-		}
+			if(isset($_POST["add"]))
+			{
+				header("Location: add.php");
+			}
 
-		if(isset($_POST["remove"]))
-		{	
-			header("Location: remove.php");
-		}
+			if(isset($_POST["remove"]))
+			{	
+				header("Location: remove.php");
+			}
 
-		if(isset($_POST["update"]))
-		{
-			header("Location: update.php");
-		}
+			if(isset($_POST["update"]))
+			{
+				header("Location: update.php");
+			}
 
-		if(isset($_POST["add_event"]))
-		{	
-			header("Location: event.php");
-		}
+			if(isset($_POST["add_event"]))
+			{	
+				header("Location: event.php");
+			}
 
-		if(isset($_POST["logout"]))
-		{	
-			header("Location: logout.php");
-		}
-
+			if(isset($_POST["logout"]))
+			{	
+				header("Location: logout.php");
+			}
 		?>
 	</body>
 </html>

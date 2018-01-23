@@ -1,4 +1,13 @@
 <!DOCTYPE html>
+<?php
+	session_start();
+	require 'UserAuthenticator.php';
+	$UserAuthenticator = new UserAuthenticator;
+    if($UserAuthenticator->isLoggedIn() == false)
+    {
+		header("location: index.php");
+    }
+?>
 <html>
 	<head>
 		<title>Franciscan Scholars Database</title>

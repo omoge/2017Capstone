@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 	session_start();
 	require 'UserAuthenticator.php';
@@ -8,6 +7,7 @@
 		header("location: index.php");
 	}
 ?>
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>Franciscan Scholars Database - Remove</title>

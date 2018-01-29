@@ -3,9 +3,9 @@
 	require 'UserAuthenticator.php';
 	$UserAuthenticator = new UserAuthenticator;
 	if($UserAuthenticator->isLoggedIn() == false)
-	{
+    {
 		header("location: index.php");
-	}
+    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -31,11 +31,7 @@
 			<br>
 			Hours:<input type="number" name="hours" />
 			<br>
-			Hours completed?
-			<label><input type="radio" name="completion" value="true" />Yes</label>
-			<label><input type="radio" name="completion" value="false" />No</label>
-			<br>
-			Reflection paper completed?
+			Completion of Reflection paper?
 			<label><input type="radio" name="reflection" value="true" />Yes</label>
 			<label><input type="radio" name="reflection" value="false" />No</label>
 			<br>
@@ -72,10 +68,8 @@
 					$notes = "";
 				}
 				
-				$_POST['completion'] = $_POST['completion'] == 'true' ? 1 : 0;
 				$_POST['reflection'] = $_POST['reflection'] == 'true' ? 1 : 0;
 				$_POST['renewal'] = $_POST['renewal'] == 'true' ? 1 : 0;
-				$completion = $_POST["completion"];
 				$reflection = $_POST["reflection"];
 				$renewal = $_POST["renewal"];
 
@@ -91,7 +85,7 @@
 				}
 
 				// Define the query with placeholders
-				$sql = "INSERT INTO FSData (id, firstName, lastName, email, year, hours, completion, reflection, renewal, notes, password_hash) VALUES (:id, :firstName, :lastName, :email, :year, :hours, :completion, :reflection, :renewal, :notes, :password_hash);";
+				$sql = "INSERT INTO FSData (id, firstName, lastName, email, year, hours, reflection, renewal, notes, password_hash) VALUES (:id, :firstName, :lastName, :email, :year, :hours, :reflection, :renewal, :notes, :password_hash);";
 
 				// Prepare the statement, giving us a PDO statement object
 				$query = $connect->prepare($sql);
@@ -103,7 +97,6 @@
 				$query->bindValue(':email', $email);
 				$query->bindValue(':year', $year);
 				$query->bindValue(':hours', $hours);
-				$query->bindValue(':completion', $completion);
 				$query->bindValue(':reflection', $reflection);
 				$query->bindValue(':renewal', $renewal);
 				$query->bindValue(':notes', $notes);

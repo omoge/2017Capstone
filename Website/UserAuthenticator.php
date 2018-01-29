@@ -32,10 +32,10 @@
 			// Hash password when connected then search for database for username/password combo
 			if ($connect)
 			{
-				$sql = "SELECT * FROM user WHERE name = :name";
+				$sql = "SELECT * FROM FSData WHERE email = :email";
 
 				$query = $connect->prepare($sql);
-				$query->bindValue(':name', $Username);
+				$query->bindValue(':email', $Username);
 				
 				$success = $query->execute();
 
@@ -82,7 +82,7 @@
 		//redirectToLogin
 		public function redirectToLogin()
 		{
-			header("refresh:3; url=login.php");
+			header("refresh:3; url=index.php");
 		}
 	}
 ?>

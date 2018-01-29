@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 	session_start();
 	require 'UserAuthenticator.php';
@@ -8,6 +7,7 @@
 		header("location: index.php");
 	}
 ?>
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>Franciscan Scholars Database</title>
@@ -20,19 +20,15 @@
 
 		<form action="admin.php" method="post">
 			<input type="submit" name="add" value="Add"/>
-			<br>
-
+			<br />
 			<input type="submit" name="remove" value="Remove"/>
-			<br>
-
+			<br />
 			<input type="submit" name="update" value="Update"/>
-			<br>
-
+			<br />
 			<input type="submit" name="add_event" value="Add Event"/>
-			<br>
-
+			<br />
 			<input type="submit" name="logout" value="Log Out"/>
-			<br>
+			<br />
 		</form>
 
 		<?php

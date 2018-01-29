@@ -1,11 +1,10 @@
-<!DOCTYPE HTML>
 <?php
 	session_start();
 	require 'UserAuthenticator.php';
 	$UserAuthenticator = new UserAuthenticator;
     if($UserAuthenticator->isLoggedIn() == true)
-    {
-		if($_SESSION['username'] == "admin")
+	{
+		if($_SESSION["username"] == "admin")
 		{
 			header("location: admin.php");
 		}
@@ -13,8 +12,9 @@
 		{
 			header("location: home.php");
 		}
-    }
+	}
 ?>
+<!DOCTYPE HTML>
 <html>
 	<head>
 		<title>Franciscan Scholars</title>
@@ -26,50 +26,52 @@
 		<h2>Franciscan Scholars</h2>
 
 		<form action="index.php" method="post">
-		<label>Username</label>
-		<br />
-		<input type="text" 	name="username" />
-		<br />
-		<label>Password</label>
-		<br />
-		<input type="password" name="password" />
-		<br />
-		<br />
-		<input type="submit" name="submit" value="Sign in" />
-	</form>
-	
-	<?php
-		if(isset($_POST["submit"]))
-		{
-			$Username = $_POST["username"];
-			$Password = $_POST["password"];
-			
-			if(empty($Username) || empty($Password))
+			<label>Username</label>
+			<br />
+			<input type="text" 	name="username" />
+			<br />
+			<label>Password</label>
+			<br />
+			<input type="password" name="password" />
+			<br />
+			<br />
+			<input type="submit" name="submit" value="Sign in" />
+		</form>
+		
+		<?php
+			if(isset($_POST["submit"]))
 			{
-				echo "<p>Please enter all the fields.</p>";
-			}
-			else
-			{   
-				if( $UserAuthenticator->authenticate($Username, $Password) === true )
+				$Username = $_POST["username"];
+				$Username = htmlspecialchars($Username);
+				$Password = $_POST["password"];
+				$password = htmlspecialchars($password);
+				
+				if(empty($Username) || empty($Password))
 				{
-					$UserAuthenticator->logUserIn($Username);
-					$_SESSION['username'] = $Username;
-					if($Username == "admin")
+					echo "<p>Please enter all the fields.</p>";
+				}
+				else
+				{   
+					if( $UserAuthenticator->authenticate($Username, $Password) === true )
 					{
-						header("location: admin.php");
+						$UserAuthenticator->logUserIn($Username);
+						$_SESSION["username"] = $Username;
+						if($Username == "admin")
+						{
+							header("location: admin.php");
+						}
+						else
+						{
+							header("location: home.php");
+						}
 					}
 					else
 					{
-						header("location: home.php");
+						echo "<p>Invalid log in.</p>";
 					}
 				}
-				else
-				{
-					echo "<p>Invalid log in.</p>";
-				}
 			}
-		}
-	?>
+		?>
 	</body>
 
 </html>

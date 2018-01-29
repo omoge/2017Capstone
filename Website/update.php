@@ -1,96 +1,182 @@
-
+<?php
+	session_start();
+	require 'UserAuthenticator.php';
+	$UserAuthenticator = new UserAuthenticator;
+	if($UserAuthenticator->isLoggedIn() == false)
+	{
+		header("location: index.php");
+	}
+?>
 <!DOCTYPE html>
- <html>
- <head>
-<title>Update page</title>
-</head>
+<html>
+	<head>
+		<title>Franciscan Scholars Database - Remove</title>
+		<link rel="shortcut icon" href="img/SanDamianoCross.ico" />
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+	</head>
 
-<body>
+	<body>
+		<h1>Remove from Database</h1>
 
-<h1>Update Database</h1>
+		<form action="update.php" method="post">
+			Student ID number to update:<input type="text" name="student_id"/>
+			<br>
+			<input type="submit" name="submit" value= "Retrieve Student"/>
+			<br>
+			<input type="submit" name="return" value= "Return to main menu"/>
+		</form> 
 
+		<?php
+			if(isset($_POST["submit"]))
+			{
+				$id = $_POST["student_id"];
 
+				if(empty($id))
+				{
+					die("<p>Please enter all the fields.</p>");
+				}
 
-
-<form action="update.php" method="post">
-ID:<input type="text" name="id"/>
-<br>
-<br>
-Last Name:<input type="text" name="lname"/>
-<br>
-First Name:<input type="text" name="fname"/>
-<br>  
-Year:(Please put FR,SH,JR,or SR)<input type="text" name="year"/>
-<br>
-E-mail Address:<input type="text" name="email"/>
-<br>
-Hours:<input type="text" name="hours"/>
-<br>
-<!--
-Compeltion of Reflection paper?
-<label><input type="radio" name="reflection" value="TRUE"/>Yes</label>
-<label><input type="radio" name="reflection" value="FALSE"/>No</label>
-<br>
-Renewal?
-<label><input type="radio" name="renewal" value="TRUE"/>Yes</label>
-<label><input type="radio" name="renewal" value="FALSE"/>No</label>
-<br>
- Notes: <br><textarea name="notes" rows="10" cols="26"></textarea> 
- 
- <br> -->
-<input type="submit" name="SubmitB" Value= "Update Student"/>
-<br>
-<input type="submit" name="goBack" Value= "Go back to main menu"/>
- 
- </form>
-
- 
- <?php
-	if(isset($_POST["SubmitB"]))
-		{ $lastname=$_POST["lname"];
-			$id=$_POST["id"];
-
-			$firstname=$_POST["fname"];
-			
-			
-			$year=$_POST["year"];
-			$email=$_POST["email"];
-			$hours=$_POST["hours"];/*
-			$reflection=$_POST["reflection"];
-			$renewal=$_POST["renewal"];
-			$notes=$_POST["notes"]; */
-			
-			$conn=mysqli_connect("thor.quincy.edu", "csc320_gruenre", "starwars");
-                        if(!$conn)
-                        {
-                                die("Unable to connect to the database!");
-                        }
-
-                mysqli_select_db($conn, "csc320_gruenre");
+				$db_user = 'root';
+				$db_pass = '';
+				$connect = new PDO('mysql:host=localhost;dbname=csc320_omoge', $db_user, $db_pass);
 				
-$updateQuery="UPDATE FSData SET LastName='$lastname',FirstName='$firstname',Year='$year',Email='$email',Hours='$hours' WHERE ID=$id;";
-//echo $updateQuery;
-				
-				$result= mysqli_query($conn, $updateQuery);
-//echo $result;
+				if(!$connect)
+				{
+					die("<p>Unable to connect to the database!</p>");
+				}
 
+				// Define the query with placeholders
+				$sql = "SELECT * FROM FSData WHERE id = :id";
+				
+				// Prepare the statement, giving us a PDO statement object
+				$query = $connect->prepare($sql);
+
+				// Bind values to the placeholders in the query
+				$query->bindValue(':id', $id);
+
+				// Execute the query				
+				$success = $query->execute();
 	
-if ($conn->query($updateQuery) === TRUE) {
-    echo "Record updated successfully";
-}
-		
-				
-				
-		}
+				if(!$success)
+				{
+					echo "<p>Unable to find user.</p>";
+					exit;
+				}
+	
+				$row = $query->fetch(PDO::FETCH_ASSOC);
+	
+				$id = $row['id'];
+				$firstName = $row['firstName'];
+				$lastName = $row['lastName'];
+				$email = $row['email'];
+				$year = $row['year'];
+				$hours = $row['hours'];
+				$completion = $row['completion'];
+				$reflection = $row['reflection'];
+				$renewal = $row['renewal'];
+				$notes = $row['notes'];
 
-		if(isset($_POST["goBack"]))
-		{
-			header("Location: database.php");
-			
-			
-		}
+				echo
+					"<form action='update.php' method='post'> 
+						<input type='hidden' name='id' value='" . $id . "'/>
+						First Name:<input type='text' name='fname' value='" . $firstName . "'/>
+						<br> 
+						Last Name:<input type='text' name='lname' value='" . $lastName . "'/>
+						<br>
+						E-mail Address:<input type='text' name='email' value='" . $email . "'/>
+						<br>
+						Year (FR, SH, JR or SR): <input type='text' name='year' value='" . $year . "'/>
+						<br>
+						Hours:<input type='number' name='hours' value='" . $hours . "'/>
+						<br>
+						Hours completed?
+						<label><input type='radio' name='completion' value='true' />Yes</label>
+						<label><input type='radio' name='completion' value='false' />No</label>
+						<br>
+						Reflection paper completed?
+						<label><input type='radio' name='reflection' value='true' />Yes</label>
+						<label><input type='radio' name='reflection' value='false' />No</label>
+						<br>
+						Renewal?
+						<label><input type='radio' name='renewal' value='true' />Yes</label>
+						<label><input type='radio' name='renewal' value='false' />No</label>
+						<br>
+						Notes: <br><textarea name='notes' rows='10' cols='26'>". $notes ."</textarea>
+						<br>
+						<input type='submit' name='update' value='Update Student'/>
+					</form>";
+			}
+
+			if(isset($_POST["update"]))
+			{
+				$id = $_POST['id'];
+				$firstname = $_POST["fname"];
+				$lastname = $_POST["lname"];
+				$email = $_POST["email"];
+				$year = $_POST["year"];
+				$hours = $_POST["hours"];
+				$notes = $_POST["notes"];
+
+				if(empty($firstname) || empty($lastname) || empty($year) || empty($email) || empty($hours))
+				{
+					die("<p>Please enter all the fields.</p>");
+				}
+
+				if(empty($notes))
+				{
+					$notes = "";
+				}
+				
+				$_POST['completion'] = $_POST['completion'] == 'true' ? 1 : 0;
+				$_POST['reflection'] = $_POST['reflection'] == 'true' ? 1 : 0;
+				$_POST['renewal'] = $_POST['renewal'] == 'true' ? 1 : 0;
+				$completion = $_POST["completion"];
+				$reflection = $_POST["reflection"];
+				$renewal = $_POST["renewal"];
+
+				$db_user = 'root';
+				$db_pass = '';
+				$connect = new PDO('mysql:host=localhost;dbname=csc320_omoge', $db_user, $db_pass);
+				
+				if(!$connect)
+				{
+					die("<p>Unable to connect to the database!</p>");
+				}
+
+				// Define the query with placeholders
+				$sql = "UPDATE FSData SET firstName = :firstName, lastName = :lastName, email = :email, year = :year, hours = :hours, completion = :completion, reflection = :reflection, renewal = :renewal, notes = :notes WHERE id = :id;";
+
+				// Prepare the statement, giving us a PDO statement object
+				$query = $connect->prepare($sql);
+
+				// Bind values to the placeholders in the query
+				$query->bindValue(':firstName', $firstname);
+				$query->bindValue(':lastName', $lastname);
+				$query->bindValue(':email', $email);
+				$query->bindValue(':year', $year);
+				$query->bindValue(':hours', $hours);
+				$query->bindValue(':completion', $completion);
+				$query->bindValue(':reflection', $reflection);
+				$query->bindValue(':renewal', $renewal);
+				$query->bindValue(':notes', $notes);
+				$query->bindValue(':id', $id);
+
+				// Execute the query
+				$success = $query->execute();
+						
+				if (!$success)
+				{
+					echo "<p>Update failed. Could not update fields into the database.</p>";
+					exit;
+				}
+
+				echo "<p>Update complete.</p>";
+			}
+
+			if(isset($_POST["return"]))
+			{
+				header("Location: admin.php"); 
+			}
 		?>
- 
-
-</body>
+	</body>
 </html>

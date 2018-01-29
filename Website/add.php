@@ -1,13 +1,13 @@
-<!DOCTYPE html>
 <?php
 	session_start();
 	require 'UserAuthenticator.php';
 	$UserAuthenticator = new UserAuthenticator;
 	if($UserAuthenticator->isLoggedIn() == false)
-	{
+    {
 		header("location: index.php");
-	}
+    }
 ?>
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>Franciscan Scholars Database</title>
@@ -27,11 +27,15 @@
 			<br>
 			E-mail Address:<input type="text" name="email" />
 			<br>
-			Year(Please put FR, SH, JR or SR): <input type="text" name="year" />
+			Year (FR, SH, JR or SR): <input type="text" name="year" />
 			<br>
 			Hours:<input type="number" name="hours" />
 			<br>
-			Compeltion of Reflection paper?
+			Hours completed?
+			<label><input type="radio" name="completion" value="true" />Yes</label>
+			<label><input type="radio" name="completion" value="false" />No</label>
+			<br>
+			Reflection paper completed?
 			<label><input type="radio" name="reflection" value="true" />Yes</label>
 			<label><input type="radio" name="reflection" value="false" />No</label>
 			<br>
@@ -46,9 +50,7 @@
 			<input type="submit" name="submit" Value="Add to Database"/>
 		</form> 
 
-
 		<?php
-
 			if(isset($_POST["submit"]))
 			{
 				$id = $_POST["id"];
@@ -70,8 +72,10 @@
 					$notes = "";
 				}
 				
+				$_POST['completion'] = $_POST['completion'] == 'true' ? 1 : 0;
 				$_POST['reflection'] = $_POST['reflection'] == 'true' ? 1 : 0;
 				$_POST['renewal'] = $_POST['renewal'] == 'true' ? 1 : 0;
+				$completion = $_POST["completion"];
 				$reflection = $_POST["reflection"];
 				$renewal = $_POST["renewal"];
 
@@ -80,14 +84,14 @@
 				$db_user = 'root';
 				$db_pass = '';
 				$connect = new PDO('mysql:host=localhost;dbname=csc320_omoge', $db_user, $db_pass);
-
+				
 				if(!$connect)
 				{
 					die("<p>Unable to connect to the database!</p>");
 				}
 
 				// Define the query with placeholders
-				$sql = "INSERT INTO FSData (id, firstName, lastName, email, year, hours, reflection, renewal, notes, password_hash) VALUES (:id, :firstName, :lastName, :email, :year, :hours, :reflection, :renewal, :notes, :password);";
+				$sql = "INSERT INTO FSData (id, firstName, lastName, email, year, hours, completion, reflection, renewal, notes, password_hash) VALUES (:id, :firstName, :lastName, :email, :year, :hours, :completion, :reflection, :renewal, :notes, :password_hash);";
 
 				// Prepare the statement, giving us a PDO statement object
 				$query = $connect->prepare($sql);
@@ -99,25 +103,27 @@
 				$query->bindValue(':email', $email);
 				$query->bindValue(':year', $year);
 				$query->bindValue(':hours', $hours);
+				$query->bindValue(':completion', $completion);
 				$query->bindValue(':reflection', $reflection);
 				$query->bindValue(':renewal', $renewal);
 				$query->bindValue(':notes', $notes);
-				$query->bindValue(':password', $HashPW);
+				$query->bindValue(':password_hash', $HashPW);
 
 				// Execute the query
 				$success = $query->execute();
 						
-				if ($success)
-				{
-					echo "<p>Registration complete. Return to the login page.</p>";
-				}
-				else
+				if (!$success)
 				{
 					echo "<p>Registration failed. Could not register fields into the database.</p>";
 					exit;
 				}
+
+				echo "<p>Registration complete.</p>";
 			}  
 		?>
+
+		<br />
+		<a href = "admin.php">Return to home</a>
 
 	</body>
 </html>

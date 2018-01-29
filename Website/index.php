@@ -2,7 +2,7 @@
 	session_start();
 	require 'UserAuthenticator.php';
 	$UserAuthenticator = new UserAuthenticator;
-    if($UserAuthenticator->isLoggedIn() == true)
+	if($UserAuthenticator->isLoggedIn() == true)
 	{
 		if($_SESSION["username"] == "admin")
 		{

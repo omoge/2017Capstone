@@ -24,11 +24,11 @@
 		//authenticate
 		public function authenticate($Username, $Password)
 		{
-			// Connect to database with database username and password
+			Connect to database with database username and password
 			$db_user = 'root';
 			$db_pass = '';
 			$connect = new PDO('mysql:host=localhost;dbname=csc320_omoge', $db_user, $db_pass);
-
+			
 			// Hash password when connected then search for database for username/password combo
 			if ($connect)
 			{

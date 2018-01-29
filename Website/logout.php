@@ -4,7 +4,6 @@
     $UserAuthenticator->logout();
     $UserAuthenticator->redirectToLogin();
 ?>
-
 <!DOCTYPE HTML>
 <html>
     <head>

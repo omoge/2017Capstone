@@ -3,9 +3,9 @@
 	require 'UserAuthenticator.php';
 	$UserAuthenticator = new UserAuthenticator;
 	if($UserAuthenticator->isLoggedIn() == false)
-    {
+	{
 		header("location: index.php");
-    }
+	}
 ?>
 <!DOCTYPE html>
 <html>

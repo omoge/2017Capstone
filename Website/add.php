@@ -75,13 +75,9 @@
 
 				$HashPW = password_hash($password, PASSWORD_DEFAULT);
 
-				// $db_user = 'root';
-				// $db_pass = '';
-				// $connect = new PDO('mysql:host=localhost;dbname=csc320_omoge', $db_user, $db_pass);
-				
-				$db_user = 'csc320_omoge';
-				$db_pass = 'qu440883';
-				$connect = new PDO('mysql:host=thor.quincy.edu;dbname=csc320_omoge', $db_user, $db_pass);
+				$db_user = 'root';
+				$db_pass = '';
+				$connect = new PDO('mysql:host=localhost;dbname=csc320_omoge', $db_user, $db_pass);
 
 				if(!$connect)
 				{

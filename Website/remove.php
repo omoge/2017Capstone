@@ -11,67 +11,72 @@
 <html>
 	<head>
 		<title>Franciscan Scholars Database - Remove</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="shortcut icon" href="img/SanDamianoCross.ico" />
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
 
 	<body>
-		<h1>Remove from Database</h1>
+		<div class="header">
+			<h2>Franciscan Scholars Database - Remove</h2>
+		</div>
 
-		<form action="remove.php" method="post">
-			Student ID number to delete:<input type="text" name="student_id"/>
-			<br>
-			<input type="submit" name="SubmitB" Value= "Delete Student"/>
-			<br>
-			<input type="submit" name="goBack" Value= "Go back to main menu"/>
-		</form> 
+		<div class="col-6 col-m-9">
+			<form action="remove.php" method="post">
+				Student ID number to delete:<input type="text" name="student_id"/>
+				<br>
+				<input type="submit" name="SubmitB" value="Delete Student"/>
+				<br>
+				<input type="submit" name="goBack" value="Go back to main menu"/>
+			</form> 
 
-		<?php
-			if(isset($_POST["SubmitB"]))
-			{
-				$id = $_POST["student_id"];
-
-				if(empty($id))
+			<?php
+				if(isset($_POST["SubmitB"]))
 				{
-					die("<p>Please enter all the fields.</p>");
+					$id = $_POST["student_id"];
+
+					if(empty($id))
+					{
+						die("<p>Please enter all the fields.</p>");
+					}
+					
+					$db_user = 'root';
+					$db_pass = '';
+					$connect = new PDO('mysql:host=localhost;dbname=csc320_omoge', $db_user, $db_pass);
+
+					if(!$connect)
+					{
+						die("<p>Unable to connect to the database!</p>");
+					}
+
+					// Define the query with placeholders
+					$sql = "DELETE FROM FSData WHERE id = :id";
+					
+					// Prepare the statement, giving us a PDO statement object
+					$query = $connect->prepare($sql);
+
+					// Bind values to the placeholders in the query
+					$query->bindValue(':id', $id);
+
+					// Execute the query
+					$success = $query->execute();
+								
+					if ($success)
+					{
+						echo "<p>Record deleted.</p>";
+					}
+					else
+					{
+						echo "<p>Deletion failed.</p>";
+						exit;
+					}
 				}
 
-				$db_user = 'root';
-				$db_pass = '';
-				$connect = new PDO('mysql:host=localhost;dbname=csc320_omoge', $db_user, $db_pass);
-
-				if(!$connect)
+				if(isset($_POST["goBack"]))
 				{
-					die("<p>Unable to connect to the database!</p>");
+					header("Location: admin.php"); 
 				}
-
-				// Define the query with placeholders
-				$sql = "DELETE FROM FSData WHERE id = :id";
-				
-				// Prepare the statement, giving us a PDO statement object
-				$query = $connect->prepare($sql);
-
-				// Bind values to the placeholders in the query
-				$query->bindValue(':id', $id);
-
-				// Execute the query
-				$success = $query->execute();
-							
-				if ($success)
-				{
-					echo "<p>Record deleted.</p>";
-				}
-				else
-				{
-					echo "<p>Deletion failed.</p>";
-					exit;
-				}
-			}
-
-			if(isset($_POST["goBack"]))
-			{
-				header("Location: admin.php"); 
-			}
-		?>
+			?>
+		</div>
 	</body>
 </html>

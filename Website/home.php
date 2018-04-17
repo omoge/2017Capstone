@@ -1,16 +1,16 @@
 <?php
-    session_start();
-    require 'UserAuthenticator.php';
-    $UserAuthenticator = new UserAuthenticator;
-    if($UserAuthenticator->isLoggedIn() == false)
-    {
-        header("location: index.php");
-    }
+	session_start();
+	require 'UserAuthenticator.php';
+	$UserAuthenticator = new UserAuthenticator;
+	if($UserAuthenticator->isLoggedIn() == false)
+	{
+		header("location: index.php");
+	}
 ?>
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Franciscan Scholars - Student</title>
+		<title>Franciscan Scholars - Student</title>
         <link rel="shortcut icon" href="img/SanDamianoCross.ico" />
         <link rel="stylesheet" type="text/css" href="css/style.css">
     </head>
@@ -90,7 +90,7 @@
         <p>Welcome, <?php echo "$firstName, $lastName";?>. <?php echo "$message $rmessage" ?></p>
         
         <form action="home.php" method="post">
-            Enter Hours: <input type="number" name="hours"><br />
+            Enter Hours: <input type="number" name="hours" min="0"><br />
             <!--
                 <p>Upcoming events: </br>
                 </p>

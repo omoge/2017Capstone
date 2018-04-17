@@ -1,1 +1,1 @@
-This is the old app, refer to the CapApp for the newer version.
+This is the old app, refer to the CapstoneApp for the newer version.

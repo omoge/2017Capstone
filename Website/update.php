@@ -64,6 +64,12 @@
 				}
 	
 				$row = $query->fetch(PDO::FETCH_ASSOC);
+
+				if($row == 0)
+				{
+					echo "<p>Unable to find user.</p>";
+					exit;
+				}
 	
 				$id = $row['id'];
 				$firstName = $row['firstName'];
@@ -79,11 +85,11 @@
 				echo
 					"<form action='update.php' method='post'> 
 						<input type='hidden' name='id' value='" . $id . "'/>
-						First Name:<input type='text' name='fname' value='" . $firstName . "'/>
+						First Name:<input type='text' name='fname' pattern='[A-Za-z].{0,}' value='" . $firstName . "'/>
 						<br> 
-						Last Name:<input type='text' name='lname' value='" . $lastName . "'/>
+						Last Name:<input type='text' name='lname' pattern='[A-Za-z].{0,}' value='" . $lastName . "'/>
 						<br>
-						E-mail Address:<input type='text' name='email' value='" . $email . "'/>
+						E-mail Address:<input type='email' name='email' pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$' value='" . $email . "'/>
 						<br>
 						Year (FR, SH, JR or SR): <input type='text' name='year' value='" . $year . "'/>
 						<br>
@@ -103,6 +109,8 @@
 						<br>
 						Notes: <br><textarea name='notes' rows='10' cols='26'>". $notes ."</textarea>
 						<br>
+						Password:<input type='text' name='password' pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}' title='Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters' />
+						<br>			
 						<input type='submit' name='update' value='Update Student'/>
 					</form>";
 			}
@@ -116,8 +124,9 @@
 				$year = $_POST["year"];
 				$hours = $_POST["hours"];
 				$notes = $_POST["notes"];
+				$password = $_POST["password"];
 
-				if(empty($firstname) || empty($lastname) || empty($year) || empty($email) || empty($hours))
+				if(empty($firstname) || empty($lastname) || empty($year) || empty($email) || empty($hours) || empty($password))
 				{
 					die("<p>Please enter all the fields.</p>");
 				}

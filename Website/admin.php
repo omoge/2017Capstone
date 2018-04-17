@@ -11,13 +11,16 @@
 <html>
 	<head>
 		<title>Franciscan Scholars Database</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="shortcut icon" href="img/SanDamianoCross.ico" />
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
 
 	<body>
-		<h1>Franciscan Scholars Database - Admin Menu</h1>
-
+		<div class="header">
+			<h2>Franciscan Scholars Database - Menu</h2>
+		</div>
+		<img src="tower.png" alt="tower">
 		<form action="admin.php" method="post">
 			<input type="submit" name="add" value="Add"/>
 			<br />

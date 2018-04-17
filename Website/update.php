@@ -11,6 +11,7 @@
 <html>
 	<head>
 		<title>Franciscan Scholars Database - Remove</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="shortcut icon" href="img/SanDamianoCross.ico" />
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>

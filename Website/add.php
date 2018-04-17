@@ -17,15 +17,14 @@
 
 	<body>
 		<h1>Add to Database</h1>
-
 		<form action="add.php" method="post">
 			ID:<input type="text" name="id"/>
 			<br> 
-			First Name:<input type="text" name="fname" />
+			First Name:<input type="text" name="fname" pattern="[A-Za-z].{0,}" title="Enter a valid name" />
 			<br> 
-			Last Name:<input type="text" name="lname" />
+			Last Name:<input type="text" name="lname" pattern="[A-Za-z].{0,}"  title="Enter a valid name" />
 			<br>
-			E-mail Address:<input type="text" name="email" />
+			E-mail Address:<input type="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" />
 			<br>
 			Year (FR, SH, JR or SR): <input type="text" name="year" />
 			<br>
@@ -41,10 +40,13 @@
 			<br>
 			Notes: <br><textarea name="notes" rows="10" cols="26"></textarea>
 			<br>
-			Password:<input type="text" name="password" />
+			Password:<input type="text" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" />
 			<br>
 			<input type="submit" name="submit" Value="Add to Database"/>
 		</form> 
+		<br />
+		<a href="admin.php" class="button">Return to menu</a>
+
 
 		<?php
 			if(isset($_POST["submit"]))
@@ -74,7 +76,7 @@
 				$renewal = $_POST["renewal"];
 
 				$HashPW = password_hash($password, PASSWORD_DEFAULT);
-
+				
 				$db_user = 'root';
 				$db_pass = '';
 				$connect = new PDO('mysql:host=localhost;dbname=csc320_omoge', $db_user, $db_pass);
@@ -112,11 +114,8 @@
 				}
 
 				echo "<p>Registration complete.</p>";
-			}  
+			}
 		?>
-
-		<br />
-		<a href = "admin.php">Return to home</a>
 
 	</body>
 </html>

@@ -44,7 +44,7 @@
 				$Username = $_POST["username"];
 				$Username = htmlspecialchars($Username);
 				$Password = $_POST["password"];
-				$password = htmlspecialchars($password);
+				$Password = htmlspecialchars($Password);
 				
 				if(empty($Username) || empty($Password))
 				{
@@ -67,7 +67,7 @@
 					}
 					else
 					{
-						echo "<p>Invalid log in.</p>";
+						echo "<p>Invalid log in. If you have lost credientials - please contact the Quincy University Campus Ministry.</p>";
 					}
 				}
 			}
